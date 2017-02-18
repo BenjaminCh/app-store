@@ -10,13 +10,15 @@ import (
 
 // AlgoliaRepository allows to interact with Algolia backend.
 type AlgoliaRepository struct {
-	client algoliasearch.Client
+	client     algoliasearch.Client
+	repository string
 }
 
 // NewAlgoliaRepository creates a new AlgoliaRepository object.
-func NewAlgoliaRepository(applicationID string, apiKey string) *AlgoliaRepository {
+func NewAlgoliaRepository(applicationID string, apiKey string, repository string) *AlgoliaRepository {
 	return &AlgoliaRepository{
-		client: algoliasearch.NewClient(applicationID, apiKey),
+		client:     algoliasearch.NewClient(applicationID, apiKey),
+		repository: repository,
 	}
 }
 
@@ -38,13 +40,15 @@ func (ar *AlgoliaRepository) AppToObject(app domain.App) (algoliasearch.Object, 
 func (ar *AlgoliaRepository) HitToApp(object algoliasearch.Map) (domain.App, error) {
 	var err error
 	var app domain.App
-	objectJSON, err := json.Marshal(object)
-	if err != nil {
-		return app, err
-	}
-	if err := json.Unmarshal(objectJSON, &app); err != nil {
-		return app, err
-	}
+
+	app = domain.NewApp(
+		object["name"].(string),
+		object["image"].(string),
+		object["link"].(string),
+		object["category"].(string),
+		object["rank"].(float64),
+	)
+
 	return app, err
 }
 
@@ -65,6 +69,22 @@ func (ar *AlgoliaRepository) AppsToObjects(app []domain.App) ([]algoliasearch.Ob
 	return objects, err
 }
 
+// ObjectToApp allows to convert a Algolia Object to an domain.App.
+func (ar *AlgoliaRepository) ObjectToApp(object algoliasearch.Object) (domain.App, error) {
+	var err error
+	var app domain.App
+
+	app = domain.NewApp(
+		object["name"].(string),
+		object["image"].(string),
+		object["link"].(string),
+		object["category"].(string),
+		object["rank"].(float64),
+	)
+
+	return app, err
+}
+
 // ObjectsToApps allows to convert multiple Algolia Maps to domain.App objects.
 func (ar *AlgoliaRepository) HitsToApps(object []algoliasearch.Map) ([]domain.App, error) {
 	var apps []domain.App
@@ -82,36 +102,58 @@ func (ar *AlgoliaRepository) HitsToApps(object []algoliasearch.Map) ([]domain.Ap
 	return apps, err
 }
 
-// AddApps allows to add apps into the app index.
-// Returns the list of added apps or an error.
+// AddApp allows to add app into the app index.
+// Returns the id of added app or an error.
 // Implements IRepository interface.
-func (ar *AlgoliaRepository) AddApps(apps []domain.App, repository string) ([]domain.App, error) {
+func (ar *AlgoliaRepository) AddApp(newApp domain.App) (string, error) {
 	var err error
-	index := ar.client.InitIndex(repository)
+	index := ar.client.InitIndex(ar.repository)
 
 	// Convert app objects to algolia objects
-	objects, err := ar.AppsToObjects(apps)
+	objects, err := ar.AppToObject(newApp)
+	if err != nil {
+		return "", err
+	}
+
+	// Add the apps to algolia index
+	res, err := index.AddObject(objects)
+	if err != nil {
+		return "", err
+	}
+
+	return res.ObjectID, err
+}
+
+// AddApps allows to add apps into the app index.
+// Returns the ids of added apps or an error.
+// Implements IRepository interface.
+func (ar *AlgoliaRepository) AddApps(newApps []domain.App) ([]string, error) {
+	var err error
+	index := ar.client.InitIndex(ar.repository)
+
+	// Convert app objects to algolia objects
+	objects, err := ar.AppsToObjects(newApps)
 	if err != nil {
 		return nil, err
 	}
 
 	// Add the apps to algolia index
-	_, err = index.AddObjects(objects)
+	res, err := index.AddObjects(objects)
 	if err != nil {
 		return nil, err
 	}
 
-	return apps, err
+	return res.ObjectIDs, err
 }
 
 // SearchApps allows to search apps in the app index.
 // Returns a list of Apps Objects or an error.
 // Implements IRepository interface.
-func (ar *AlgoliaRepository) SearchApps(query string, repository string) ([]domain.App, error) {
+func (ar *AlgoliaRepository) SearchApps(query string) ([]domain.App, error) {
 	var err error
 	var apps []domain.App
 
-	index := ar.client.InitIndex(repository)
+	index := ar.client.InitIndex(ar.repository)
 
 	// Get objects from Index
 	objects, err := index.Search(query, nil)
@@ -126,4 +168,28 @@ func (ar *AlgoliaRepository) SearchApps(query string, repository string) ([]doma
 	}
 
 	return apps, err
+}
+
+// SearchApp allows to search an app in the app index.
+// Returns the matching App Object or an error.
+// Implements IRepository interface.
+func (ar *AlgoliaRepository) SearchApp(id string) (domain.App, error) {
+	var err error
+	var app domain.App
+
+	index := ar.client.InitIndex(ar.repository)
+
+	// Get objects from Index
+	object, err := index.GetObject(id, nil)
+	if err != nil {
+		return app, err
+	}
+
+	// Convert those objects back to App Objects
+	app, err = ar.ObjectToApp(object)
+	if err != nil {
+		return app, err
+	}
+
+	return app, err
 }

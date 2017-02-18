@@ -5,6 +5,8 @@ import (
 )
 
 type IRepository interface {
-	AddApps(apps []domain.App, repository string) ([]domain.App, error)
-	SearchApps(query string, repository string) ([]domain.App, error)
+	AddApps(apps []domain.App) ([]string, error)
+	AddApp(app domain.App) (string, error)
+	SearchApps(query string) ([]domain.App, error)
+	SearchApp(id string) (domain.App, error)
 }

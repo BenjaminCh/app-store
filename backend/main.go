@@ -19,19 +19,19 @@ func main() {
 
 	// Create an set configuration manager
 	configInteractor := interfaces.ConfigurationManager{}
-	configInteractor.ConfigurationInteractor = infrastructure.NewConfig()
+	configInteractor.ConfigurationInteractor = infrastructure.NewViperConfig()
 
 	// TODO : Add a logger class
 
 	// Create the controller (aka webservice)
 	webserviceHandler := interfaces.WebserviceHandler{}
 	// Attach the App Model interactor
-	webserviceHandler.AppsInteractor = usecases.NewAppInteractor(
+	webserviceHandler.AppInteractor = usecases.NewAppInteractor(
 		interfaces.NewAlgoliaRepository(
 			configInteractor.GetConfigString("algolia.applicationID"),
 			configInteractor.GetConfigString("algolia.apiKey"),
+			configInteractor.GetConfigString("algolia.indexes.apps"),
 		),
-		"app",
 	)
 	// Attach the webservice helper
 	//webserviceHandler.Helper = interfaces.NewWebserviceHelper()

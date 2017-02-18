@@ -1,16 +1,19 @@
 package interfaces
 
-import "net/http"
-import "fmt"
-
-type AppsInteractor interface{}
+import (
+	"fmt"
+	"net/http"
+)
 
 type WebserviceHandler struct {
-	AppsInteractor AppsInteractor
+	AppInteractor IAppInteractor
 	// Helper                                   *WebserviceHelper
 }
 
 func (handler WebserviceHandler) AppGet(config ConfigurationManager, res http.ResponseWriter, req *http.Request) {
 	fmt.Println("Hello Algolia !")
+
+	fmt.Println(handler.AppInteractor.GetApps("test"))
+
 	res.WriteHeader(200)
 }

@@ -7,12 +7,12 @@ type App struct {
 	image    string
 	link     string
 	category string
-	rank     int
+	rank     float64
 }
 
 // NewApp allows to create an App Object.
 // It returns the newly created App Object.
-func NewApp(name string, image string, link string, category string, rank int) App {
+func NewApp(name string, image string, link string, category string, rank float64) App {
 	return App{
 		name:     name,
 		image:    image,

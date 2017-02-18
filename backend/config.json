@@ -7,7 +7,10 @@
 		"debug" : false
 	},
     "algolia" : {
-        "applicationID" : "ICI",
-        "apiKey" : "ICI"
+        "applicationID" : "SECRET",
+        "apiKey" : "SECRET",
+		"indexes" : {
+			"apps" : "apps"
+		}
     }
 }
