@@ -40,7 +40,7 @@ func main() {
 	// Route app get (apps/:id)
 	router.
 		Methods("GET").
-		Path("/api/1/apps/{[0-9]*}").
+		Path("/api/1/apps/{id:[0-9]*}").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
 				// Call the webservice handler injecting the congiguration interactor as well.
