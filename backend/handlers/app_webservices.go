@@ -1,4 +1,4 @@
-package interfaces
+package handlers
 
 import (
 	"encoding/json"
@@ -8,15 +8,17 @@ import (
 	"github.com/gorilla/mux"
 
 	"../domain"
+	"../interfaces"
 )
 
-// WebserviceHandler : REST API Handler
-type WebserviceHandler struct {
-	AppInteractor IAppInteractor
+// AppWebserviceHandler : REST API Handler
+type AppWebserviceHandler struct {
+	AppInteractor interfaces.IAppInteractor
 }
 
-// AppGet is called on get app HTTP request and returns the given app if found.
-func (handler WebserviceHandler) AppGet(config ConfigurationManager, res http.ResponseWriter, req *http.Request) {
+// Get is called on get app HTTP request and returns the given app if found.
+// Implements IWebservice
+func (handler AppWebserviceHandler) Get(config interfaces.ConfigurationManager, res http.ResponseWriter, req *http.Request) {
 	var err error
 	var app domain.App
 	var appID string
@@ -63,8 +65,9 @@ func (handler WebserviceHandler) AppGet(config ConfigurationManager, res http.Re
 	return
 }
 
-// AppDelete is called on delete app HTTP request and delete the given app from the index.
-func (handler WebserviceHandler) AppDelete(config ConfigurationManager, res http.ResponseWriter, req *http.Request) {
+// Delete is called on delete app HTTP request and delete the given app from the index.
+// Implements IWebservice
+func (handler AppWebserviceHandler) Delete(config interfaces.ConfigurationManager, res http.ResponseWriter, req *http.Request) {
 	var err error
 	var appID string
 
@@ -109,8 +112,9 @@ func (handler WebserviceHandler) AppDelete(config ConfigurationManager, res http
 	return
 }
 
-// AppCreate is called on create app HTTP request and create the given app to the index.
-func (handler WebserviceHandler) AppCreate(config ConfigurationManager, res http.ResponseWriter, req *http.Request) {
+// Create is called on create app HTTP request and create the given app to the index.
+// Implements IWebservice
+func (handler AppWebserviceHandler) Create(config interfaces.ConfigurationManager, res http.ResponseWriter, req *http.Request) {
 	var err error
 	var app domain.App
 

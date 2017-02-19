@@ -13,6 +13,8 @@ type App struct {
 // NewApp allows to create an App Object.
 // It returns the newly created App Object.
 func NewApp(name string, image string, link string, category string, rank float64) App {
+	// TODO : Add a bit of logic here
+	// Checking if image is a proper URL, same as link
 	return App{
 		Name:     name,
 		Image:    image,

@@ -7,8 +7,10 @@ import (
 
 	"fmt"
 
+	"./handlers"
 	"./infrastructure"
 	"./interfaces"
+	"./repositories"
 	"./usecases"
 )
 
@@ -24,45 +26,43 @@ func main() {
 	// TODO : Add a logger class
 
 	// Create the controller (aka webservice)
-	webserviceHandler := interfaces.WebserviceHandler{}
+	webserviceHandler := handlers.AppWebserviceHandler{}
 	// Attach the App Model interactor
 	webserviceHandler.AppInteractor = usecases.NewAppInteractor(
-		interfaces.NewAlgoliaRepository(
+		repositories.NewAlgoliaRepository(
 			configInteractor.GetConfigString("algolia.applicationID"),
 			configInteractor.GetConfigString("algolia.apiKey"),
 			configInteractor.GetConfigString("algolia.indexes.apps"),
 		),
 	)
-	// Attach the webservice helper
-	//webserviceHandler.Helper = interfaces.NewWebserviceHelper()
 
 	// TODO : Move the router to an external class
-	// Route app get (apps/:id)
+	// Route app get (GET apps/:id)
 	router.
 		Methods("GET").
 		Path("/api/1/apps/{id:[0-9]*}").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
 				// Call the webservice handler injecting the congiguration interactor as well.
-				webserviceHandler.AppGet(configInteractor, res, req)
+				webserviceHandler.Get(configInteractor, res, req)
 			},
 		)
-	// Route app creation (apps/:app_id)
+	// Route app creation (POST /apps)
 	router.
 		Methods("POST").
 		Path("/api/1/apps").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
-				webserviceHandler.AppCreate(configInteractor, res, req)
+				webserviceHandler.Create(configInteractor, res, req)
 			},
 		)
-	// Route app creation (apps/:app_id)
+	// Route app deletion (DELETE /apps)
 	router.
 		Methods("DELETE").
 		Path("/api/1/apps/{id:[0-9]*}").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
-				webserviceHandler.AppDelete(configInteractor, res, req)
+				webserviceHandler.Delete(configInteractor, res, req)
 			},
 		)
 
