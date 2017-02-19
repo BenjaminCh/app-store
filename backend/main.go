@@ -48,14 +48,23 @@ func main() {
 			},
 		)
 	// Route app creation (apps/:app_id)
-	/*router.
-	Methods("POST").
-	Path("/api/1/apps").
-	HandlerFunc(
-		func(res http.ResponseWriter, req *http.Request) {
-			webserviceHandler.AppAdd(configInteractor, res, req)
-		},
-	)*/
+	router.
+		Methods("POST").
+		Path("/api/1/apps").
+		HandlerFunc(
+			func(res http.ResponseWriter, req *http.Request) {
+				webserviceHandler.AppCreate(configInteractor, res, req)
+			},
+		)
+	// Route app creation (apps/:app_id)
+	router.
+		Methods("DELETE").
+		Path("/api/1/apps/{id:[0-9]*}").
+		HandlerFunc(
+			func(res http.ResponseWriter, req *http.Request) {
+				webserviceHandler.AppDelete(configInteractor, res, req)
+			},
+		)
 
 	// Launch the server
 	fmt.Println("Server launching port : ", configInteractor.GetConfigString("server.port"))

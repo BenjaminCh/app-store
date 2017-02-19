@@ -102,10 +102,10 @@ func (ar *AlgoliaRepository) HitsToApps(object []algoliasearch.Map) ([]domain.Ap
 	return apps, err
 }
 
-// AddApp allows to add app into the app index.
+// Create allows to add app into the app index.
 // Returns the id of added app or an error.
 // Implements IRepository interface.
-func (ar *AlgoliaRepository) AddApp(newApp domain.App) (string, error) {
+func (ar *AlgoliaRepository) Create(newApp domain.App) (string, error) {
 	var err error
 	index := ar.client.InitIndex(ar.repository)
 
@@ -124,10 +124,10 @@ func (ar *AlgoliaRepository) AddApp(newApp domain.App) (string, error) {
 	return res.ObjectID, err
 }
 
-// AddApps allows to add apps into the app index.
+// CreateBatch allows to add apps into the app index.
 // Returns the ids of added apps or an error.
 // Implements IRepository interface.
-func (ar *AlgoliaRepository) AddApps(newApps []domain.App) ([]string, error) {
+func (ar *AlgoliaRepository) CreateBatch(newApps []domain.App) ([]string, error) {
 	var err error
 	index := ar.client.InitIndex(ar.repository)
 
@@ -146,10 +146,10 @@ func (ar *AlgoliaRepository) AddApps(newApps []domain.App) ([]string, error) {
 	return res.ObjectIDs, err
 }
 
-// SearchApps allows to search apps in the app index.
+// Search allows to search apps in the app index.
 // Returns a list of Apps Objects or an error.
 // Implements IRepository interface.
-func (ar *AlgoliaRepository) SearchApps(query string) ([]domain.App, error) {
+func (ar *AlgoliaRepository) Search(query string) ([]domain.App, error) {
 	var err error
 	var apps []domain.App
 
@@ -170,10 +170,10 @@ func (ar *AlgoliaRepository) SearchApps(query string) ([]domain.App, error) {
 	return apps, err
 }
 
-// SearchApp allows to search an app in the app index.
+// Get allows to search an app in the app index.
 // Returns the matching App Object or an error.
 // Implements IRepository interface.
-func (ar *AlgoliaRepository) SearchApp(id string) (domain.App, error) {
+func (ar *AlgoliaRepository) Get(id string) (domain.App, error) {
 	var err error
 	var app domain.App
 
@@ -192,4 +192,36 @@ func (ar *AlgoliaRepository) SearchApp(id string) (domain.App, error) {
 	}
 
 	return app, err
+}
+
+// Delete allows to delete an app from the app index.
+// Returns the id of deleted app or an error.
+// Implements IRepository interface.
+func (ar *AlgoliaRepository) Delete(id string) (string, error) {
+	var err error
+	index := ar.client.InitIndex(ar.repository)
+
+	// Add the apps to algolia index
+	res, err := index.DeleteObject(id)
+	if err != nil {
+		return "", err
+	}
+
+	return res.DeletedAt, err // TODO : No really the deleted ID but, well, to be improved in my workflow :)
+}
+
+// Delete allows to delete multiple apps from the app index.
+// Returns the ids of deleted apps or an error.
+// Implements IRepository interface.
+func (ar *AlgoliaRepository) DeleteBatch(ids []string) ([]string, error) {
+	var err error
+	index := ar.client.InitIndex(ar.repository)
+
+	// Delete the apps from algolia index
+	res, err := index.DeleteObjects(ids)
+	if err != nil {
+		return nil, err
+	}
+
+	return res.ObjectIDs, err
 }

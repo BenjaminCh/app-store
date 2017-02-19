@@ -5,8 +5,10 @@ import (
 )
 
 type IRepository interface {
-	AddApps(apps []domain.App) ([]string, error)
-	AddApp(app domain.App) (string, error)
-	SearchApps(query string) ([]domain.App, error)
-	SearchApp(id string) (domain.App, error)
+	CreateBatch(apps []domain.App) ([]string, error)
+	Create(app domain.App) (string, error)
+	Search(query string) ([]domain.App, error)
+	Get(id string) (domain.App, error)
+	Delete(id string) (string, error)
+	DeleteBatch(ids []string) ([]string, error)
 }

@@ -5,8 +5,10 @@ import (
 )
 
 type IAppInteractor interface {
-	GetApps(query string) ([]domain.App, error)
-	GetApp(id string) (domain.App, error)
-	PersistApps(newApps []domain.App) ([]string, error)
-	PersistApp(newApp domain.App) (string, error)
+	Search(query string) ([]domain.App, error)
+	Get(id string) (domain.App, error)
+	CreateBatch(newApps []domain.App) ([]string, error)
+	Create(newApp domain.App) (string, error)
+	Delete(id string) (string, error)
+	DeleteBatch(ids []string) ([]string, error)
 }
