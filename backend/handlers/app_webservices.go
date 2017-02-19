@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 
@@ -128,19 +128,16 @@ func (handler AppWebserviceHandler) Create(config interfaces.ConfigurationManage
 	}
 
 	// Parse params to extract all params needed to create an app
-	vars := mux.Vars(req)
-
-	rank, err := strconv.ParseFloat(vars["rank"], 16)
+	decoder := json.NewDecoder(req.Body)
+	err = decoder.Decode(&app)
 	if err != nil {
-		rank = -1
+		// An error occured while trying to decode POST params
+		// Return a HTTP 500 (Internal Server Error)
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+		return
 	}
-	app = domain.NewApp(
-		vars["name"],
-		vars["image"],
-		vars["link"],
-		vars["category"],
-		rank,
-	)
+
+	fmt.Println(app)
 
 	// Create the app
 	createResult, err := handler.AppInteractor.Create(app)
@@ -157,9 +154,18 @@ func (handler AppWebserviceHandler) Create(config interfaces.ConfigurationManage
 		return
 	}
 
+	resultJSON, err := json.Marshal(createResult)
+	if err != nil {
+		// An error occured while trying to serialize the result object to JSON
+		// Return a HTTP 500 (Internal Server Error)
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	// Return result
 	// App was successfully deleted
 	// Returns a 204
 	res.WriteHeader(204)
+	res.Write(resultJSON)
 	return
 }
