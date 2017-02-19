@@ -7,8 +7,10 @@ import (
 
 	"fmt"
 
+	"./handlers"
 	"./infrastructure"
 	"./interfaces"
+	"./repositories"
 	"./usecases"
 )
 
@@ -19,43 +21,50 @@ func main() {
 
 	// Create an set configuration manager
 	configInteractor := interfaces.ConfigurationManager{}
-	configInteractor.ConfigurationInteractor = infrastructure.NewConfig()
+	configInteractor.ConfigurationInteractor = infrastructure.NewViperConfig()
 
 	// TODO : Add a logger class
 
 	// Create the controller (aka webservice)
-	webserviceHandler := interfaces.WebserviceHandler{}
+	webserviceHandler := handlers.AppWebserviceHandler{}
 	// Attach the App Model interactor
-	webserviceHandler.AppsInteractor = usecases.NewAppInteractor(
-		interfaces.NewAlgoliaRepository(
+	webserviceHandler.AppInteractor = usecases.NewAppInteractor(
+		repositories.NewAlgoliaRepository(
 			configInteractor.GetConfigString("algolia.applicationID"),
 			configInteractor.GetConfigString("algolia.apiKey"),
+			configInteractor.GetConfigString("algolia.indexes.apps"),
 		),
-		"app",
 	)
-	// Attach the webservice helper
-	//webserviceHandler.Helper = interfaces.NewWebserviceHelper()
 
 	// TODO : Move the router to an external class
-	// Route app get (apps/:id)
+	// Route app get (GET apps/:id)
 	router.
 		Methods("GET").
-		Path("/api/1/apps/{[0-9]*}").
+		Path("/api/1/apps/{id:[0-9]*}").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
 				// Call the webservice handler injecting the congiguration interactor as well.
-				webserviceHandler.AppGet(configInteractor, res, req)
+				webserviceHandler.Get(configInteractor, res, req)
 			},
 		)
-	// Route app creation (apps/:app_id)
-	/*router.
-	Methods("POST").
-	Path("/api/1/apps").
-	HandlerFunc(
-		func(res http.ResponseWriter, req *http.Request) {
-			webserviceHandler.AppAdd(configInteractor, res, req)
-		},
-	)*/
+	// Route app creation (POST /apps)
+	router.
+		Methods("POST").
+		Path("/api/1/apps").
+		HandlerFunc(
+			func(res http.ResponseWriter, req *http.Request) {
+				webserviceHandler.Create(configInteractor, res, req)
+			},
+		)
+	// Route app deletion (DELETE /apps)
+	router.
+		Methods("DELETE").
+		Path("/api/1/apps/{id:[0-9]*}").
+		HandlerFunc(
+			func(res http.ResponseWriter, req *http.Request) {
+				webserviceHandler.Delete(configInteractor, res, req)
+			},
+		)
 
 	// Launch the server
 	fmt.Println("Server launching port : ", configInteractor.GetConfigString("server.port"))
