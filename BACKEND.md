@@ -1,9 +1,12 @@
 # Backend
 
 ## Queries examples
-### Get App by identifier
+### Get an app from its identifier
+```
 curl -X GET "http://localhost:8888/api/1/apps/346374311"
+```
 ### Create a new app
+```
 curl --data '
 {
     "name" : "WhatTheTVShow",
@@ -13,3 +16,8 @@ curl --data '
     "rank" : 223
 }
 ' http://localhost:8888/api/1/apps
+```
+### Delete an app from its identifier
+```
+curl -X DELETE "http://localhost:8888/api/1/apps/352641411"
+```
