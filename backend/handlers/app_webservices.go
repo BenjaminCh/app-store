@@ -6,8 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"../domain"
-	"../interfaces"
+	"github.com/BenjaminCh/algolia-app-store/backend/domain"
+	"github.com/BenjaminCh/algolia-app-store/backend/interfaces"
 )
 
 // AppWebserviceHandler : REST API Handler

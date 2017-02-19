@@ -3,10 +3,10 @@ package repositories_test
 import (
 	"testing"
 
-	"../domain"
-	"../infrastructure"
-	"../usecases"
-	"./"
+	"github.com/BenjaminCh/algolia-app-store/backend/domain"
+	"github.com/BenjaminCh/algolia-app-store/backend/infrastructure"
+	"github.com/BenjaminCh/algolia-app-store/backend/interfaces"
+	"github.com/BenjaminCh/algolia-app-store/backend/usecases"
 )
 
 // TestAddApp, test if the Algolia app interactor does work properly adding one app.

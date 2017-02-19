@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"../domain"
+	"github.com/BenjaminCh/algolia-app-store/backend/domain"
 )
 
 type IAppInteractor interface {

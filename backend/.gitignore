@@ -6,3 +6,9 @@ Icon
 
 ### CONFIGURATION FILES ###
 config.json
+
+### AMAZON WEB SERVICES ###
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

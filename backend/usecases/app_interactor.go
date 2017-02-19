@@ -1,6 +1,6 @@
 package usecases
 
-import "../domain"
+import "github.com/BenjaminCh/algolia-app-store/backend/domain"
 
 type AppInteractor struct {
 	AppRepository IRepository

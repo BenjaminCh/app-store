@@ -7,12 +7,14 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"./handlers"
-	"./infrastructure"
-	"./interfaces"
-	"./repositories"
-	"./usecases"
+	"github.com/BenjaminCh/algolia-app-store/backend/handlers"
+	"github.com/BenjaminCh/algolia-app-store/backend/infrastructure"
+	"github.com/BenjaminCh/algolia-app-store/backend/interfaces"
+	"github.com/BenjaminCh/algolia-app-store/backend/repositories"
+	"github.com/BenjaminCh/algolia-app-store/backend/usecases"
 )
+
+// http://stackoverflow.com/questions/30885098/go-local-import-in-non-local-package
 
 func main() {
 
