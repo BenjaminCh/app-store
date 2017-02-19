@@ -5,7 +5,7 @@ import (
 
 	"github.com/algolia/algoliasearch-client-go/algoliasearch"
 
-	"github.com/BenjaminCh/algolia-app-store/backend/domain"
+	"github.com/BenjaminCh/app-store/backend/domain"
 )
 
 // AlgoliaRepository allows to interact with Algolia backend.

@@ -4,14 +4,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 
-	"github.com/BenjaminCh/algolia-app-store/backend/handlers"
-	"github.com/BenjaminCh/algolia-app-store/backend/infrastructure"
-	"github.com/BenjaminCh/algolia-app-store/backend/interfaces"
-	"github.com/BenjaminCh/algolia-app-store/backend/repositories"
-	"github.com/BenjaminCh/algolia-app-store/backend/usecases"
+	"github.com/BenjaminCh/app-store/backend/handlers"
+	"github.com/BenjaminCh/app-store/backend/infrastructure"
+	"github.com/BenjaminCh/app-store/backend/interfaces"
+	"github.com/BenjaminCh/app-store/backend/repositories"
+	"github.com/BenjaminCh/app-store/backend/usecases"
 )
 
 func main() {
@@ -70,9 +71,13 @@ func main() {
 
 	// Launch the server
 	fmt.Println("Server launching port : ", configInteractor.GetConfigString("server.port"))
+	port := configInteractor.GetConfigString("server.port")
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	}
 	log.Fatal(
 		http.ListenAndServe(
-			":"+configInteractor.GetConfigString("server.port"),
+			":"+port,
 			router,
 		),
 	)

@@ -30,13 +30,13 @@ func NewViperConfig() *ConfigHandler {
 	}
 
 	// Env variables
-	viper.SetEnvPrefix("ALGOLIA_APP_STORE")
+	viper.SetEnvPrefix("APP_STORE")
 	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
 
 	// Common variables
 	viper.SetDefault("version", "0.0.1.0")
-	viper.SetDefault("server.port", "8888")
+	viper.SetDefault("server.port", "8080")
 	viper.SetDefault("application.debug", false)
 
 	// Algolia specific part

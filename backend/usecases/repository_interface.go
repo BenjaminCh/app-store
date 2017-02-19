@@ -1,7 +1,7 @@
 package usecases
 
 import (
-	"github.com/BenjaminCh/algolia-app-store/backend/domain"
+	"github.com/BenjaminCh/app-store/backend/domain"
 )
 
 type IRepository interface {
