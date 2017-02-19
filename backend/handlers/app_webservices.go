@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -136,8 +135,6 @@ func (handler AppWebserviceHandler) Create(config interfaces.ConfigurationManage
 		http.Error(res, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Println(app)
 
 	// Create the app
 	createResult, err := handler.AppInteractor.Create(app)

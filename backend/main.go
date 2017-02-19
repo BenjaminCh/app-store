@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
-
-	"fmt"
 
 	"./handlers"
 	"./infrastructure"
@@ -43,7 +43,7 @@ func main() {
 		Path("/api/1/apps/{id:[0-9]*}").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
-				// Call the webservice handler injecting the congiguration interactor as well.
+				// Call the webservice handler injecting the configuration interactor as well.
 				webserviceHandler.Get(configInteractor, res, req)
 			},
 		)
@@ -53,6 +53,7 @@ func main() {
 		Path("/api/1/apps").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
+				// Call the webservice handler injecting the configuration interactor as well.
 				webserviceHandler.Create(configInteractor, res, req)
 			},
 		)
@@ -62,15 +63,18 @@ func main() {
 		Path("/api/1/apps/{id:[0-9]*}").
 		HandlerFunc(
 			func(res http.ResponseWriter, req *http.Request) {
+				// Call the webservice handler injecting the configuration interactor as well.
 				webserviceHandler.Delete(configInteractor, res, req)
 			},
 		)
 
 	// Launch the server
 	fmt.Println("Server launching port : ", configInteractor.GetConfigString("server.port"))
-	http.ListenAndServe(
-		":"+configInteractor.GetConfigString("server.port"),
-		router,
+	log.Fatal(
+		http.ListenAndServe(
+			":"+configInteractor.GetConfigString("server.port"),
+			router,
+		),
 	)
 
 }
