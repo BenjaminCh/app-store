@@ -14,8 +14,6 @@ import (
 	"github.com/BenjaminCh/algolia-app-store/backend/usecases"
 )
 
-// http://stackoverflow.com/questions/30885098/go-local-import-in-non-local-package
-
 func main() {
 
 	// Create the router
