@@ -52,24 +52,27 @@ func NewViperConfig() *ConfigHandler {
 
 // GetConfig allows to retrieve a configuration value for a given key.
 // Implements function from IConfiguration interface
-func (c ConfigHandler) GetConfig(key string) interface{} {
+func (c ConfigHandler) GetConfig(key string, defaultValue interface{}) interface{} {
+	if c.config.Get(key) == nil {
+		return defaultValue
+	}
 	return c.config.Get(key)
 }
 
 // GetConfigString allows to retrieve a configuration String for a given key.
 // Implements function from IConfiguration interface
-func (c ConfigHandler) GetConfigString(key string) string {
-	return c.config.Get(key).(string)
+func (c ConfigHandler) GetConfigString(key string, defaultValue string) string {
+	return c.GetConfig(key, defaultValue).(string)
 }
 
 // GetConfigBool allows to retrieve a configuration Boolean for a given key.
 // Implements function from IConfiguration interface
-func (c ConfigHandler) GetConfigBool(key string) bool {
-	return c.config.Get(key).(bool)
+func (c ConfigHandler) GetConfigBool(key string, defaultValue bool) bool {
+	return c.GetConfig(key, defaultValue).(bool)
 }
 
 // GetConfigUInt allows to retrieve a configuration UInt for a given key.
 // Implements function from IConfiguration interface
-func (c ConfigHandler) GetConfigUInt(key string) uint {
-	return c.config.Get(key).(uint)
+func (c ConfigHandler) GetConfigUInt(key string, defaultValue uint) uint {
+	return c.GetConfig(key, defaultValue).(uint)
 }

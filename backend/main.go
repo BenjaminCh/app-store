@@ -29,9 +29,9 @@ func main() {
 	// Attach the App Model interactor
 	webserviceHandler.AppInteractor = usecases.NewAppInteractor(
 		repositories.NewAlgoliaRepository(
-			configInteractor.GetConfigString("algolia.applicationID"),
-			configInteractor.GetConfigString("algolia.apiKey"),
-			configInteractor.GetConfigString("algolia.indexes.apps"),
+			configInteractor.GetConfigString("algolia.applicationID", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.apiKey", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.indexes.apps", "NOT_SET"),
 		),
 	)
 
