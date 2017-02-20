@@ -30,9 +30,11 @@ func NewViperConfig() *ConfigHandler {
 	}
 
 	// Env variables
+	// Read automatically env vars declared with the prefix "APPSTORE_"
 	viper.SetEnvPrefix("APPSTORE")
 	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
+	viper.AutomaticEnv()
 
 	return &ConfigHandler{config: viper.GetViper()}
 }
