@@ -42,6 +42,7 @@ func NewViperConfig() *ConfigHandler {
 // GetConfig allows to retrieve a configuration value for a given key.
 // Implements function from IConfiguration interface
 func (c ConfigHandler) GetConfig(key string, defaultValue interface{}) interface{} {
+	// Returns the default value if the key is not defined in the config
 	if c.config.IsSet(key) == false {
 		return defaultValue
 	}
