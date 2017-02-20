@@ -30,7 +30,7 @@ func NewViperConfig() *ConfigHandler {
 	}
 
 	// Env variables
-	viper.SetEnvPrefix("APP_STORE")
+	viper.SetEnvPrefix("APPSTORE")
 	replacer := strings.NewReplacer(".", "_")
 	viper.SetEnvKeyReplacer(replacer)
 
@@ -40,8 +40,9 @@ func NewViperConfig() *ConfigHandler {
 	viper.SetDefault("application.debug", false)
 
 	// Algolia specific part
-	viper.SetDefault("algolia.applicationID", "NOT_SET") // Key set as environnement var on the server
-	viper.SetDefault("algolia.apiKey", "NOT_SET")        // Key set as environnement var on the server
+	viper.BindEnv("algolia.applicationID") // Key set as environnement var on the server
+	viper.BindEnv("algolia.apiKey")        // Key set as environnement var on the server
+
 	// Indexes
 	viper.SetDefault("algolia.indexes.apps", "apps")
 
