@@ -1,14 +1,12 @@
 {
    "version":"0.0.1.0",
    "server":{
-      "port":"8888"
+      "port":"5000"
    },
    "application":{
       "debug":false
    },
    "algolia":{
-      "applicationID":"SECRET",
-      "apiKey":"SECRET",
       "indexes":{
          "apps":"apps"
       }

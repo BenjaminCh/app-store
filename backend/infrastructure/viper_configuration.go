@@ -36,7 +36,7 @@ func NewViperConfig() *ConfigHandler {
 
 	// Common variables
 	viper.SetDefault("version", "0.0.1.0")
-	viper.SetDefault("server.port", "8080")
+	viper.SetDefault("server.port", "5000")
 	viper.SetDefault("application.debug", false)
 
 	// Algolia specific part

@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 
@@ -70,14 +68,9 @@ func main() {
 		)
 
 	// Launch the server
-	fmt.Println("Server launching port : ", configInteractor.GetConfigString("server.port"))
-	port := configInteractor.GetConfigString("server.port")
-	if os.Getenv("PORT") != "" {
-		port = os.Getenv("PORT")
-	}
 	log.Fatal(
 		http.ListenAndServe(
-			":"+port,
+			":8080",
 			router,
 		),
 	)
