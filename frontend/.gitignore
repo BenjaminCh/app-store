@@ -1,0 +1,20 @@
+# Dependencies #
+node_modules
+bower_components
+.sass-cache
+test/bower_components
+app/assets/styles/_collecticons.scss
+
+# Misc #
+*~
+*#
+.DS_STORE
+.netbeans
+nbproject
+.idea
+.resources
+.node_history
+temp
+tmp
+.tmp
+dist
