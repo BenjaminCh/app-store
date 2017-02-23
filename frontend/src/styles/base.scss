@@ -1,9 +1,13 @@
+@import '_icons.scss';
 @import '~materialize';
 
+$primaryColor : #006064;
+$secondaryColor : #e0f2f1;
+
 .highlighted {
-    background-color: #e0f2f1;
+    background-color: $secondaryColor;
 }
 
 .primary {
-    color : #006064
+    color : $primaryColor;
 }

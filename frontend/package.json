@@ -6,7 +6,8 @@
   "author": "BenjaminCh",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --quiet --config webpack.conf.js --host 0.0.0.0"
+    "start": "webpack-dev-server --quiet --config webpack.conf.js --host 0.0.0.0",
+    "build": "webpack --config webpack.prod.js"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.4",
@@ -21,6 +22,7 @@
     "css-loader": "^0.26.1",
     "document": "^0.4.7",
     "eslint": "^3.16.0",
+    "eslint-loader": "^1.6.3",
     "extract-text-webpack-plugin": "^2.0.0-beta",
     "file-loader": "^0.10.0",
     "g": "^2.0.1",
@@ -46,6 +48,7 @@
     "inferno-create-element": "^1.2.2",
     "inferno-router": "^1.2.2",
     "inferno-server": "^1.2.2",
+    "jquery": "^3.1.1",
     "standard": "^8.6.0"
   }
 }
