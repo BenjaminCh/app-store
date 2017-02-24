@@ -161,8 +161,8 @@ func (handler AppWebserviceHandler) Create(config interfaces.ConfigurationManage
 
 	// Return result
 	// App was successfully deleted
-	// Returns a 204
-	res.WriteHeader(204)
+	// Returns a 200
+	res.WriteHeader(200)
 	res.Write(resultJSON)
 	return
 }
