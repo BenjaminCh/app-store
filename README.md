@@ -26,8 +26,8 @@ It's composed in two parts:
 
 1. **[Tests](#tests)**
 
-    * [Run the Frontend](#test-frontend)
-    * [Run the Backend](#test-backend)
+    * [Tests Frontend](#test-frontend)
+    * [Tests Backend](#test-backend)
 
 
 # Getting Started
@@ -151,12 +151,12 @@ curl -X DELETE "http://localhost:8080/api/1/apps/362950001"
 
 Will produce an HTTP 200 if ok, an HTTP 404 otherwise.
 
-## Test
+## Tests
 
-### Frontend
+### Tests Frontend
 Tests to be added on the frontend.
 
-### Backend
+### Tests Backend
 We will use [Go](https://golang.org/) to test the backend code (make sure you have it installed on your machine first).
 Go in the repository (root level) and type the following commands:
 ```
