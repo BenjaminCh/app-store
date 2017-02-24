@@ -176,6 +176,11 @@ go test ./...
 The following things has been done: 
 - [x] First backend version handling apps get / create and delete operations via REST 
 - [x] First frontend version playing with algolia search
+- [x] Handle image 404 fallback to a default image (for apps that don't have images, or bad links)
+- [x] Facets
+- [x] Query string
+- [x] Pagination
+- [x] Ranking (on app ranking desc)
 
 ### What are the next steps?
 - [ ] Write frontend unit tests
