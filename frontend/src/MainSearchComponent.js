@@ -104,11 +104,15 @@ function renderResults (results) {
 						<li>
 							<div class="row">
 								<div class="col s2">
-									<img class="app-thumbmail" src={ getImageUrl(hit.image, (hit.name + " image"), 80, 80)} alt={hit.name + " image"} width="80" height="80"/>
+									<a href={hit.link} target="_blank">
+										<img class="app-thumbmail" src={ getImageUrl(hit.image, (hit.name + " image"), 70, 70)} alt={hit.name + " image"} width="70" height="70"/>
+									</a>
 								</div>
 								<div class="col s10">
 									<h6 dangerouslySetInnerHTML={{__html: hit._highlightResult.name.value}}></h6>
-									<div class="chip" dangerouslySetInnerHTML={{__html: hit._highlightResult.category.value}}></div>
+									<p>
+										<i dangerouslySetInnerHTML={{__html: hit._highlightResult.category.value}}></i>
+									</p>
 								</div>
 							</div>
 						</li>
@@ -135,11 +139,11 @@ function renderResults (results) {
 			</a>
 			<a href="#!" data-page={currentPage-1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
 				<i class="material-icons left">chevron_left</i>
-				{ currentPage + "/" + maxPage}
+				Prev
 			</a>
 			<a href="#!" data-page={currentPage+1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
 				<i class="material-icons right">chevron_right</i>
-				{ (currentPage + 2) + "/" + maxPage}
+				Next
 			</a>
 			<a href="#!" data-page={maxPage} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
 				{ ">>|" }
