@@ -107,27 +107,29 @@ function renderResults (results) {
 	// Render results
 	document.getElementById('filtered-apps').innerHTML = InfernoServer.renderToString(
 		<div>
-			<ul>
-				{(results.hits || []).map(function(hit) {
-					return (
-						<li>
-							<div class="row">
-								<div class="col s2">
-									<a href={hit.link} target="_blank">
-										<img class="app-thumbmail" src={ getImageUrl(hit.image, (hit.name + " image"), 70, 70)} alt={hit.name + " image"} width="70" height="70"/>
-									</a>
+			{results.hits && results.hits.length > 0 && 
+				<ul>
+					{(results.hits || []).map(function(hit) {
+						return (
+							<li>
+								<div class="row">
+									<div class="col s2">
+										<a href={hit.link} target="_blank">
+											<img class="app-thumbmail" src={ getImageUrl(hit.image, (hit.name + " image"), 70, 70)} alt={hit.name + " image"} width="70" height="70"/>
+										</a>
+									</div>
+									<div class="col s10">
+										<h6 dangerouslySetInnerHTML={{__html: hit._highlightResult.name.value}}></h6>
+										<p>
+											<i dangerouslySetInnerHTML={{__html: hit._highlightResult.category.value}}></i>
+										</p>
+									</div>
 								</div>
-								<div class="col s10">
-									<h6 dangerouslySetInnerHTML={{__html: hit._highlightResult.name.value}}></h6>
-									<p>
-										<i dangerouslySetInnerHTML={{__html: hit._highlightResult.category.value}}></i>
-									</p>
-								</div>
-							</div>
-						</li>
-					);
-				})}
-			</ul>
+							</li>
+						);
+					})}
+				</ul>
+			}
 		</div>
 	);
 	// Attach image src loading error event handler.
@@ -136,31 +138,48 @@ function renderResults (results) {
 		JQuery(this).unbind("error").attr("src", getImageUrl(null, 80, 80, 'eceff1'));
 	});
 
+	// Render bottom information
+	document.getElementById('bottom-information').innerHTML = InfernoServer.renderToString(
+		<div>
+			{!results.hits || results.hits.length == 0 && 
+				<div class="center-align">
+					<h5> Oups, no results found :( </h5>
+					<p> No results were found with your filters. Test other filters.</p>
+					<img src="http://i.giphy.com/2VHKqlpI3rqRG.gif" width="480" height="284" alt="No results found"/>
+				</div>
+			}
+		</div>
+	);
+
 	// Render Pagination
 	var currentPage = results.page;
 	var minPage = 0;
 	var maxPage = results.nbPages-1;
 	
 	document.getElementById('pagination').innerHTML = InfernoServer.renderToString(
-		<div class="center-align">
-			<a href="#!" data-page={0} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
-				{ "<<|" }
-			</a>
-			<a href="#!" data-page={currentPage-1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
-				<i class="material-icons left">chevron_left</i>
-				Prev
-			</a>
-			<a href="#!" data-page={currentPage+1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
-				<i class="material-icons right">chevron_right</i>
-				Next
-			</a>
-			<a href="#!" data-page={maxPage} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
-				{ ">>|" }
-			</a>
-			<p>
-				Page {currentPage+1} / {maxPage}
-			</p>
-		</div>
+			<div>
+				{results.hits && results.hits.length > 0 && 
+					<div class="center-align">
+						<a href="#!" data-page={0} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
+							{ "<<|" }
+						</a>
+						<a href="#!" data-page={currentPage-1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
+							<i class="material-icons left">chevron_left</i>
+							Prev
+						</a>
+						<a href="#!" data-page={currentPage+1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
+							<i class="material-icons right">chevron_right</i>
+							Next
+						</a>
+						<a href="#!" data-page={maxPage} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
+							{ ">>|" }
+						</a>
+						<p>
+							Page {currentPage+1} / {maxPage}
+						</p>
+					</div>
+				}
+			</div>
 	);
 	// Attach on click event to pagination buttons
 	JQuery('a[data-page]').on('click', function(e) {
@@ -172,15 +191,19 @@ function renderResults (results) {
 	// Render results facets
 	document.getElementById('facets').innerHTML = InfernoServer.renderToString(
 		<div>
-			<h5> Categories </h5>
-			{(results.getFacetValues('category', {sortBy: ['count:desc']}) || []).map(function(facet, index) {
-				return (
-					<p>
-						<input type="checkbox" id={"checkbox-facet-" + index} data-facet={facet.name} data-facet-type="category" checked={facet.isRefined}/>
-						<label for={"checkbox-facet-" + index}>{facet.name} ({facet.count}) </label>
-					</p>
-				);
-			})}
+			{results.hits && results.hits.length > 0 && 
+				<div>
+					<h5> Categories </h5>
+					{(results.getFacetValues('category', {sortBy: ['count:desc']}) || []).map(function(facet, index) {
+						return (
+							<p>
+								<input type="checkbox" id={"checkbox-facet-" + index} data-facet={facet.name} data-facet-type="category" checked={facet.isRefined}/>
+								<label for={"checkbox-facet-" + index}>{facet.name} ({facet.count}) </label>
+							</p>
+						);
+					})}
+				</div>
+			}
 		</div>
 	);
 	// Attach on click event to facets checkboxes
@@ -253,6 +276,10 @@ function MainSearchComponent() {
 				<div id="filtered-apps" class="col s9">
 				</div>
 				<div id="facets" class="col s3">
+				</div>
+			</div>
+			<div class="row">
+				<div id="bottom-information" class="col s12">
 				</div>
 			</div>
 			<div class="row">
