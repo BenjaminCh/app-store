@@ -41,11 +41,20 @@ function queryTextChanged(instance, event) {
 }
 
 /**
- * cleanQueryText : Called when the query input close button is clicked.
- * It clean the query text.
+ * cleanQuery : Called when the search reset close button is clicked.
+ * It clean reset the search and clean query text, facets and everything.
  */
-function cleanQueryText(instance, event) {
+function cleanQuery(instance, event) {
+	// Clear UX
 	JQuery('#query_input').val('');
+	JQuery('input[data-facet-type=category]').attr('checked', false);
+	
+	// Clear algolia object
+	helper.clearCache()
+	.setQuery('')
+	.clearRefinements();
+	
+	// Launch a ne search
 	performSearch('');
 }
 
@@ -239,7 +248,7 @@ function MainSearchComponent() {
 								<div class="input-field">
 									<input id="query_input" type="search" onKeyUp={ linkEvent(this, queryTextChanged) } placeholder="Search for apps"/>
 									<label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
-									<i class="material-icons black-text" onClick={ linkEvent(this, cleanQueryText) }>close</i>
+									<i class="material-icons black-text" onClick={ linkEvent(this, cleanQuery) }>close</i>
 								</div>
 							</form>
 						</div>
