@@ -141,6 +141,7 @@ curl --data '
     "rank" : 223
 }
 ' http://localhost:8080/api/1/apps
+```
 
 Will produce an HTTP 200 if object was created and will returns its ID.
 
