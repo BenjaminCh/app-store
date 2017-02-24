@@ -17,6 +17,14 @@ type ConfigHandler struct {
 // NewViperConfig allows to create a new configuration handler based on viper.
 func NewViperConfig() *ConfigHandler {
 
+	// Env variables
+	// Read automatically env vars declared with the prefix "APPSTORE_"
+	viper.SetEnvPrefix("APPSTORE")
+	replacer := strings.NewReplacer(".", "_")
+	viper.SetEnvKeyReplacer(replacer)
+	viper.AutomaticEnv()
+
+	// Vars from config file
 	viper.SetConfigType("json")
 	viper.SetConfigName("config")
 	_, filename, _, ok := runtime.Caller(0)
@@ -28,13 +36,6 @@ func NewViperConfig() *ConfigHandler {
 	if err := viper.ReadInConfig(); err != nil {
 		log.Println("initConfig : No configuration file found, using the default config.")
 	}
-
-	// Env variables
-	// Read automatically env vars declared with the prefix "APPSTORE_"
-	viper.SetEnvPrefix("APPSTORE")
-	replacer := strings.NewReplacer(".", "_")
-	viper.SetEnvKeyReplacer(replacer)
-	viper.AutomaticEnv()
 
 	return &ConfigHandler{config: viper.GetViper()}
 }
