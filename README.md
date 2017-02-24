@@ -177,8 +177,9 @@ The following things has been done:
 - [x] First backend version handling apps get / create and delete operations via REST 
 - [x] First frontend version playing with algolia search
 - [x] Handle image 404 fallback to a default image (for apps that don't have images, or bad links)
-- [x] Facets
+- [x] Allow to reset a query
 - [x] Query string
+- [x] Facets
 - [x] Pagination
 - [x] Ranking (on app ranking desc)
 
