@@ -125,46 +125,28 @@ function renderResults (results) {
 
 	// Render Pagination
 	var currentPage = results.page;
-	var maxPaginationElements = 5;
 	var minPage = 0;
-	var maxPage = results.nbPages;
+	var maxPage = results.nbPages-1;
 	
-	var pages = [];
-	for (var i = minPage; i<=maxPage; i++) {
-		pages.push(i);
-	}
 	document.getElementById('pagination').innerHTML = InfernoServer.renderToString(
-		<ul class="pagination">
-			<li class={currentPage > 1 && currentPage < maxPage ? "waves-effect" : "disabled"}>
-				<a href="#!" data-page={minPage}>
-					<i class="material-icons">ic_first_page</i>
-				</a>
-			</li>
-			<li class={currentPage > 1 && currentPage < maxPage ? "waves-effect" : "disabled"}>
-				<a href="#!" data-page={currentPage > 1 ? (currentPage - 1) : 1}>
-					<i class="material-icons">chevron_left</i>
-				</a>
-			</li>
-			{(pages).map(function(page) {
-					return (
-						<li class={currentPage == page ? "active" : ""}>
-							<a href="#!" id={"pagination-page-" + page} data-page={page}> { page + 1 } </a>
-						</li>
-					);
-			})}
-			<li class={currentPage < maxPage ? "waves-effect" : "disabled"}>
-				<a href="#!" data-page={currentPage < maxPage ? (currentPage + 1) : maxPage}>
-					<i class="material-icons">chevron_right</i>
-				</a>
-			</li>
-			<li class={currentPage < maxPage ? "waves-effect" : "disabled"}>
-				<a href="#!" data-page={maxPage}>
-					<i class="material-icons">ic_last_page</i>
-				</a>
-			</li>
-		</ul>
+		<div class="center-align">
+			<a href="#!" data-page={0} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
+				{ "<<|" }
+			</a>
+			<a href="#!" data-page={currentPage-1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage > 0) ? "" : "hide") }>
+				<i class="material-icons left">chevron_left</i>
+				{ currentPage + "/" + maxPage}
+			</a>
+			<a href="#!" data-page={currentPage+1} class={"waves-effect waves-light btn " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
+				<i class="material-icons right">chevron_right</i>
+				{ (currentPage + 2) + "/" + maxPage}
+			</a>
+			<a href="#!" data-page={maxPage} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
+				{ ">>|" }
+			</a>
+		</div>
 	);
-	// Attach on click event to pagination items
+	// Attach on click event to pagination buttons
 	JQuery('a[data-page]').on('click', function(e) {
 		e.preventDefault();
 		helper.setPage(JQuery(this).data('page'))
@@ -195,7 +177,7 @@ function renderResults (results) {
 	// Render query stats
 	document.getElementById('info-hits-time').innerHTML = InfernoServer.renderToString(
 		(<span>
-			<strong class="primary"> { results.nbHits }</strong> hits in <strong class="primary">{ results.processingTimeMS } </strong> ms
+			<strong class="primary"> { results.nbHits } results found </strong> in <strong class="primary">{ results.processingTimeMS } </strong> ms
 		</span>)
 	);
 }
@@ -203,17 +185,47 @@ function renderResults (results) {
 // Simply load the view with the base form template.
 function MainSearchComponent() {
 
+	// Attach the result event called every time an algolia search returns something.
+	// Call the render function to render results on the page.
 	helper.on('result', function(content) {
 		renderResults(content);
 	});
+
+	// Look for any initial query in the url
+	// Inspired by https://github.com/algolia/algoliasearch-client-javascript/blob/master/examples/instantsearch%2Bpagination.html 
+	if (location.hash && location.hash.indexOf('#q=') === 0) {
+		var params = location.hash.substring(3);
+		var pageParamOffset = params.indexOf('&page=');
+		var q, page;
+		if (pageParamOffset > -1) {
+			q = decodeURIComponent(params.substring(0, pageParamOffset));
+			JQuery('#query_input').val(q);
+			page = params.substring(pageParamOffset).split('=')[1];
+		}
+		else {
+			q = decodeURIComponent(params);
+			page = 1;
+		}
+	}
+
+	// Launch a search to initialize results list
+	// performSearch(q);
 
 	return (
 		<div>
 			<div class="row">
 				<div class="input-field col s12">
-					<i class="material-icons prefix">search</i>
-					<label class="active" for="query_input">Search</label>
-					<input id="query_input" type="text" onKeyUp={ linkEvent(this, queryTextChanged) }/>
+					<nav class="grey lighten-5 black-text text-darken-2">
+						<div class="nav-wrapper">
+							<form>
+								<div class="input-field">
+									<input id="query_input" type="search" onKeyUp={ linkEvent(this, queryTextChanged) } placeholder="Search for apps"/>
+									<label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
+									<i class="material-icons black-text">close</i>
+								</div>
+							</form>
+						</div>
+					</nav>
 				</div>
 			</div>
 			<div class="row">
