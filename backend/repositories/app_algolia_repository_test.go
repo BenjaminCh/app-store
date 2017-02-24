@@ -21,9 +21,9 @@ func TestAddApp(t *testing.T) {
 	// Instanciate the App interactor
 	appInteractor := usecases.NewAppInteractor(
 		interfaces.NewAlgoliaRepository(
-			configInteractor.GetConfigString("algolia.applicationID"),
-			configInteractor.GetConfigString("algolia.apiKey"),
-			configInteractor.GetConfigString("algolia.indexes.apps"),
+			configInteractor.GetConfigString("algolia.applicationID", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.apiKey", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.indexes.apps", "NOT_SET"),
 		),
 	)
 
@@ -69,9 +69,9 @@ func TestAddApps(t *testing.T) {
 	// Instanciate the App interactor
 	appInteractor := usecases.NewAppInteractor(
 		interfaces.NewAlgoliaRepository(
-			configInteractor.GetConfigString("algolia.applicationID"),
-			configInteractor.GetConfigString("algolia.apiKey"),
-			configInteractor.GetConfigString("algolia.indexes.apps"),
+			configInteractor.GetConfigString("algolia.applicationID", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.apiKey", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.indexes.apps", "NOT_SET"),
 		),
 	)
 
@@ -148,9 +148,9 @@ func TestDeleteApp(t *testing.T) {
 	// Instanciate the App interactor
 	appInteractor := usecases.NewAppInteractor(
 		interfaces.NewAlgoliaRepository(
-			configInteractor.GetConfigString("algolia.applicationID"),
-			configInteractor.GetConfigString("algolia.apiKey"),
-			configInteractor.GetConfigString("algolia.indexes.apps"),
+			configInteractor.GetConfigString("algolia.applicationID", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.apiKey", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.indexes.apps", "NOT_SET"),
 		),
 	)
 
@@ -198,9 +198,9 @@ func TestDeleteApps(t *testing.T) {
 	// Instanciate the App interactor
 	appInteractor := usecases.NewAppInteractor(
 		interfaces.NewAlgoliaRepository(
-			configInteractor.GetConfigString("algolia.applicationID"),
-			configInteractor.GetConfigString("algolia.apiKey"),
-			configInteractor.GetConfigString("algolia.indexes.apps"),
+			configInteractor.GetConfigString("algolia.applicationID", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.apiKey", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.indexes.apps", "NOT_SET"),
 		),
 	)
 
@@ -279,9 +279,9 @@ func TestDeleteApps(t *testing.T) {
 	// Instanciate the App interactor
 	appInteractor := usecases.NewAppInteractor(
 		interfaces.NewAlgoliaRepository(
-			configInteractor.GetConfigString("algolia.applicationID"),
-			configInteractor.GetConfigString("algolia.apiKey"),
-			configInteractor.GetConfigString("algolia.indexes.apps"),
+			configInteractor.GetConfigString("algolia.applicationID", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.apiKey", "NOT_SET"),
+			configInteractor.GetConfigString("algolia.indexes.apps", "NOT_SET"),
 		),
 	)
 
