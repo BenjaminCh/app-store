@@ -29,6 +29,11 @@ It's composed in two parts:
     * [Tests Frontend](#tests-frontend)
     * [Tests Backend](#tests-backend)
 
+1. **[Project](#project)**
+
+    * [What has been done so far?](#what-has-been-done)
+    * [What are the next steps?](#next-steps)
+
 
 # Getting Started
 
@@ -164,6 +169,21 @@ Go in the repository (root level) and type the following commands:
 cd backend
 go test ./...
 ```
+
+## Project
+
+### What has been done so far?
+The following things has been done: 
+- [x] First backend version handling apps get / create and delete operations via REST 
+- [x] First frontend version playing with algolia search
+
+### What are the next steps?
+- [ ] Write frontend unit tests
+- [ ] Setup Travis for continuous testing
+- [ ] Encapsulate Algolia calls in a clean ServiceAPIComponent
+- [ ] Encapsulate Imaginaary (custom image operations) calls in a clean ServiceAPIComponent
+- [ ] Create a new index to be able to set a different custom ranking (for now we have only ranking desc)
+
 
 
 
