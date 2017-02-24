@@ -41,6 +41,14 @@ function queryTextChanged(instance, event) {
 }
 
 /**
+ * cleanQueryText : Called when the query input close button is clicked.
+ * It clean the query text.
+ */
+function cleanQueryText(instance, event) {
+	JQuery('#query_input').val("");
+}
+
+/**
  * performSearch : Perform a search and call the rendering once done.
  */
 function performSearch(query) {
@@ -148,6 +156,9 @@ function renderResults (results) {
 			<a href="#!" data-page={maxPage} class={"waves-effect waves-light btn black-text grey lighten-5 " + ((maxPage > 1 && currentPage + 2 <= maxPage) ? "" : "hide") }>
 				{ ">>|" }
 			</a>
+			<p>
+				Page {currentPage+1} / {maxPage}
+			</p>
 		</div>
 	);
 	// Attach on click event to pagination buttons
@@ -225,7 +236,7 @@ function MainSearchComponent() {
 								<div class="input-field">
 									<input id="query_input" type="search" onKeyUp={ linkEvent(this, queryTextChanged) } placeholder="Search for apps"/>
 									<label class="label-icon" for="search"><i class="material-icons black-text">search</i></label>
-									<i class="material-icons black-text">close</i>
+									<i class="material-icons black-text" onClick={ linkEvent(this, cleanQueryText) }>close</i>
 								</div>
 							</form>
 						</div>
