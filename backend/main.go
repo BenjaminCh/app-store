@@ -36,6 +36,16 @@ func main() {
 	)
 
 	// TODO : Move the router to an external class
+	// Route app get (GET /)
+	router.
+		Methods("GET").
+		Path("/").
+		HandlerFunc(
+			func(res http.ResponseWriter, req *http.Request) {
+				// Call the webservice handler injecting the configuration interactor as well.
+				webserviceHandler.Default(configInteractor, res, req)
+			},
+		)
 	// Route app get (GET apps/:id)
 	router.
 		Methods("GET").
