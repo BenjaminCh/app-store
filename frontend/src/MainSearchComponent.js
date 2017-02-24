@@ -59,8 +59,6 @@ function performSearch(query) {
 	.setQueryParameter('highlightPostTag', '</strong>')
 	.setQueryParameter('hitsPerPage', 10)
     .search();
-
-	location.replace('#q=' + encodeURIComponent(query));
 }
 
 function validURL(str) {
@@ -184,7 +182,8 @@ function renderResults (results) {
 	// Attach on click event to pagination buttons
 	JQuery('a[data-page]').on('click', function(e) {
 		e.preventDefault();
-		helper.setPage(JQuery(this).data('page'))
+		var page = JQuery(this).data('page');
+		helper.setPage(page)
 		.search();
 	});
 
@@ -229,26 +228,6 @@ function MainSearchComponent() {
 	helper.on('result', function(content) {
 		renderResults(content);
 	});
-
-	// Look for any initial query in the url
-	// Inspired by https://github.com/algolia/algoliasearch-client-javascript/blob/master/examples/instantsearch%2Bpagination.html 
-	if (location.hash && location.hash.indexOf('#q=') === 0) {
-		var params = location.hash.substring(3);
-		var pageParamOffset = params.indexOf('&page=');
-		var q, page;
-		if (pageParamOffset > -1) {
-			q = decodeURIComponent(params.substring(0, pageParamOffset));
-			JQuery('#query_input').val(q);
-			page = params.substring(pageParamOffset).split('=')[1];
-		}
-		else {
-			q = decodeURIComponent(params);
-			page = 1;
-		}
-	}
-
-	// Launch a search to initialize results list
-	// performSearch(q);
 
 	return (
 		<div>
