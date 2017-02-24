@@ -3,7 +3,7 @@
 ## Queries examples
 ### Get an app from its identifier
 ```
-curl -X GET "http://localhost:8888/api/1/apps/346374311"
+curl -X GET "http://api.search.tests.sh/api/1/apps/346374311"
 ```
 ### Create a new app
 ```
@@ -15,9 +15,9 @@ curl --data '
     "Category" : "Quiz",
     "rank" : 223
 }
-' http://localhost:8888/api/1/apps
+' http://api.search.tests.sh/api/1/apps
 ```
 ### Delete an app from its identifier
 ```
-curl -X DELETE "http://localhost:8888/api/1/apps/352641411"
+curl -X DELETE "http://api.search.tests.sh/api/1/apps/352641411"
 ```
