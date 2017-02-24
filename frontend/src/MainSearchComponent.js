@@ -45,7 +45,8 @@ function queryTextChanged(instance, event) {
  * It clean the query text.
  */
 function cleanQueryText(instance, event) {
-	JQuery('#query_input').val("");
+	JQuery('#query_input').val('');
+	performSearch('');
 }
 
 /**
