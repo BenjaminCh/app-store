@@ -26,8 +26,8 @@ It's composed in two parts:
 
 1. **[Tests](#tests)**
 
-    * [Tests Frontend](#test-frontend)
-    * [Tests Backend](#test-backend)
+    * [Tests Frontend](#tests-frontend)
+    * [Tests Backend](#tests-backend)
 
 
 # Getting Started
