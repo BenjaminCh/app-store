@@ -113,7 +113,7 @@ function renderResults (results) {
 								<div class="row">
 									<div class="col s2">
 										<a href={hit.link} target="_blank">
-											<img class="app-thumbmail" src={ getImageUrl(hit.image, (hit.name + " image"), 70, 70)} alt={hit.name + " image"} width="70" height="70"/>
+											<img class="app-thumbmail" src={hit.image} alt={hit.name + " image"} width="70" height="70"/>
 										</a>
 									</div>
 									<div class="col s10">
@@ -173,7 +173,7 @@ function renderResults (results) {
 							{ ">>|" }
 						</a>
 						<p>
-							Page {currentPage+1} / {maxPage}
+							Page {currentPage+1} / {results.nbPages}
 						</p>
 					</div>
 				}
