@@ -15,8 +15,10 @@ type AppWebserviceHandler struct {
 	AppInteractor interfaces.IAppInteractor
 }
 
+// Default is called on /, returns the link to the documentation.
+// Implements IWebservice
 func (handler AppWebserviceHandler) Default(config interfaces.ConfigurationManager, res http.ResponseWriter, req *http.Request) {
-	res.Write("Welcome ! Please have a look to our documentation to get started : https://github.com/BenjaminCh/app-store/blob/master/README.md")
+	res.Write([]byte("Welcome ! Please have a look to our documentation to get started : https://github.com/BenjaminCh/app-store/blob/master/README.md"))
 }
 
 // Get is called on get app HTTP request and returns the given app if found.
